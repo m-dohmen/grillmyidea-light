@@ -5,9 +5,9 @@ Aufruf:
   python3 grillbericht.py <daten.json> [--out VERZEICHNIS] [--no-open]
   python3 grillbericht.py - < daten.json
 
-Die Eingabe enthält nur Inhalte (Idee, Voten, Entscheidung). Namen, Rollen,
-Lebensdaten, Wikipedia-Links und Porträts ergänzt das Skript aus PERSONEN und
-assets/portraits/portraits.json. Nur Standardbibliothek, keine Abhängigkeiten.
+Die Eingabe enthält nur Inhalte (Idee, Voten, Entscheidung). Das Skript prüft sie
+und setzt sie in den Datenblock der Vorlage ein. Namen, Rollen, Porträts, Titel und
+GoatCounter ergänzt die Vorlage selbst. Nur Standardbibliothek, keine Abhängigkeiten.
 """
 import argparse
 import datetime as dt
@@ -20,26 +20,13 @@ import unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE = os.path.join(ROOT, "assets", "grillbericht-template.html")
-PORTRAITS = os.path.join(ROOT, "assets", "portraits", "portraits.json")
 
-PERSONEN = {
-    "sloan":    ("Alfred P. Sloan",   "AS", "1875–1966", "Vorsitz · ohne Stimme",     "Alfred_P._Sloan"),
-    "franklin": ("Benjamin Franklin", "BF", "1706–1790", "Alltagsnutzen",             "Benjamin_Franklin"),
-    "wedgwood": ("Josiah Wedgwood",   "JW", "1730–1795", "Markt & Preis",             "Josiah_Wedgwood_(Unternehmer,_1730)"),
-    "edison":   ("Thomas A. Edison",  "TE", "1847–1931", "Kommerzialisierung & MVP",  "Thomas_Alva_Edison"),
-    "fugger":   ("Jakob Fugger",      "JF", "1459–1525", "Risiko & Abhängigkeit",     "Jakob_Fugger"),
-    "drucker":  ("Peter F. Drucker",  "PD", "1909–2005", "Kunde & Innovationsquelle", "Peter_F._Drucker"),
-    "lauder":   ("Estée Lauder",      "EL", "1908–2004", "Distribution",              "Est%C3%A9e_Lauder"),
-    "graham":   ("Benjamin Graham",   "BG", "1894–1976", "Sicherheitsmarge & Anti-Hype", "Benjamin_Graham"),
-}
 STAMM = ["franklin", "wedgwood", "edison", "fugger", "drucker"]
 RESERVE = ["lauder", "graham"]
 EMPFEHLUNGEN = ["freigeben", "freigeben-mit-auflagen", "überarbeiten", "verwerfen", "vertagt"]
 GARSTUFEN = {"Roh": 10, "Rare": 30, "Medium rare": 55, "Medium": 70, "Medium well": 85, "Well done": 100}
 KONFIDENZ = ["hoch", "mittel", "niedrig"]
 STATUS = ["Nutzerangabe", "Beleg", "Schluss", "Annahme", "Offen"]
-BILDNACHWEIS = "Porträts: Wikimedia Commons, gemeinfrei; Peter F. Drucker: Jeff McNeill, CC BY-SA 2.0"
-BILDNACHWEIS_URL = "https://commons.wikimedia.org/wiki/File:Drucker5789.jpg"
 
 
 def fail(msg):
@@ -60,15 +47,7 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")[:40] or "idee"
 
 
-def person(pid, portraits):
-    name, ini, leben, rolle, wiki = PERSONEN[pid]
-    return {"id": pid, "name": name, "initialen": ini, "lebensdaten": leben, "rolle": rolle,
-            "wikipedia": f"https://de.wikipedia.org/wiki/{wiki}",
-            "portrait": portraits.get(pid, {}).get("src", "")}
-
-
 def build(d):
-    portraits = json.load(open(PORTRAITS, encoding="utf8"))
     idee = need(d, "idee", dict, "")
     need(idee, "titel", str, "idee"); need(idee, "pitch", str, "idee")
     idee.setdefault("vortragende", "Ideengeber:in")
@@ -96,12 +75,9 @@ def build(d):
         for j, u in enumerate(ups):
             if not (isinstance(u.get("plus"), int) and isinstance(u.get("neu"), int) and u.get("wenn")):
                 fail(f"{w}.upvotes[{j}] braucht plus (int), neu (int), wenn (Text)")
-        m = person(pid, portraits)
-        m.update({k: r[k] for k in ("score", "konfidenz", "kernsatz", "pruefung", "einwand")})
+        m = {k: r[k] for k in ("id", "score", "konfidenz", "kernsatz", "pruefung", "einwand")}
         m["upvotes"] = ups[:3]
         m["auflagen"] = r.get("auflagen") or []
-        if pid in RESERVE:
-            m["reserve"] = True
         rat.append(m)
     missing = [p for p in STAMM if p not in ids]
     if missing:
@@ -113,7 +89,6 @@ def build(d):
         fail(f"entscheidung.empfehlung muss eins von {EMPFEHLUNGEN} sein")
     if e.get("garstufe") not in GARSTUFEN:
         fail(f"entscheidung.garstufe muss eins von {list(GARSTUFEN)} sein")
-    e["garfortschritt"] = GARSTUFEN[e["garstufe"]]
     need(e, "kurzurteil", str, "entscheidung")
     for k in ("konsens", "dissens", "annahmen", "offen"):
         e.setdefault(k, [])
@@ -129,31 +104,20 @@ def build(d):
         need(t, k, str, "entscheidung.test")
     need(t, "schritte", list, "entscheidung.test")
 
-    vorsitz = person("sloan", portraits)
-    vorsitz["urteil"] = need(need(d, "vorsitz", dict, ""), "urteil", str, "vorsitz")
+    vorsitz = {"urteil": need(need(d, "vorsitz", dict, ""), "urteil", str, "vorsitz")}
 
     datum = d.get("datum") or dt.date.today().isoformat()
     return {
-        "meta": {"entwurf": bool(d.get("entwurf")), "datum": datum, "produkt": "incubateai Thinktank · Light",
-                 "bildnachweis": BILDNACHWEIS, "bildnachweisUrl": BILDNACHWEIS_URL},
-        "idee": idee, "vorsitz": vorsitz, "rat": rat, "entscheidung": e,
+        "entwurf": bool(d.get("entwurf")), "datum": datum, "idee": idee, "vorsitz": vorsitz, "rat": rat, "entscheidung": e,
     }, datum
 
 
 def render(data):
-    slug = slugify(data["idee"]["titel"])
-    titel = data["idee"]["titel"]
     js = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
-    gc = json.dumps({"allow_local": True, "path": f"/thinktank/{slug}", "title": f"Thinktank: {titel}"},
-                    ensure_ascii=False).replace("'", "&#39;").replace("<", "\\u003c")
-    esc = lambda s: s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     html = open(TEMPLATE, encoding="utf8").read()
-    # Datenblock zuletzt einsetzen, damit Nutzertext keine Platzhalter auslöst
-    html = (html.replace("__GC_SETTINGS__", gc)
-                .replace("__GC_PATH__", f"/thinktank/{slug}")
-                .replace("__PAGE_TITLE__", esc(f"Grillbericht: {titel} · incubateai Thinktank"))
-                .replace("__THINKTANK_DATA__", js))
-    return html, slug
+    if html.count("__THINKTANK_DATA__") != 1:
+        sys.exit("Vorlage beschädigt: Platzhalter __THINKTANK_DATA__ nicht genau einmal vorhanden")
+    return html.replace("__THINKTANK_DATA__", js), slugify(data["idee"]["titel"])
 
 
 def open_file(path):

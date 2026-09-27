@@ -1,5 +1,6 @@
-"""Lädt Porträts für den Grillbericht (assets/portraits/portraits.json) von Wikimedia Commons, macht sie schwarz-weiß, 128x128 quadratisch
-und schreibt sie als WebP-Data-URIs nach portraits.json (id -> {src, credit}).
+"""Lädt Porträts für den Grillbericht von Wikimedia Commons, macht sie schwarz-weiß, 128x128 quadratisch
+und schreibt sie als WebP-Data-URIs nach portraits.json (id -> {src, credit}) und in den
+Porträtblock von assets/grillbericht-template.html.
 
 Aufruf: python3 fetch_portraits.py
 """
@@ -70,6 +71,14 @@ for pid, (fn, box) in PORTRAITS.items():
     time.sleep(1.5)
 
 import os
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "portraits.json"), "w", encoding="utf8") as f:
+here = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(here, "portraits.json"), "w", encoding="utf8") as f:
     json.dump(out, f, ensure_ascii=False, indent=1)
+
+tpl = os.path.join(here, "..", "grillbericht-template.html")
+html = open(tpl, encoding="utf8").read()
+block = json.dumps({k: v["src"] for k, v in out.items()}, indent=0)
+html = re.sub(r'(<script type="application/json" id="thinktank-portraits">\n).*?(\n</script>)',
+              lambda m: m.group(1) + block + m.group(2), html, count=1, flags=re.S)
+open(tpl, "w", encoding="utf8").write(html)
 print("ok", sum(len(v["src"]) for v in out.values()), "bytes")

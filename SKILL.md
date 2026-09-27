@@ -74,9 +74,13 @@ Sloan spricht zuletzt und bündelt die Voten. Das Ergebnis geht **nicht** als Te
    ```
    python3 <skill-verzeichnis>/scripts/grillbericht.py thinktank-daten.json --out <arbeitsverzeichnis>
    ```
-   Das Skript prüft die Daten, ergänzt Namen, Rollen, Lebensdaten, Wikipedia-Links und Porträts, schreibt `thinktank-<slug>-<JJJJ-MM-TT>.html` und öffnet die Datei im Browser (macOS `open`, Linux `xdg-open`, Windows `startfile`). Es gibt den Pfad aus.
+   Das Skript prüft die Daten, setzt sie in die Vorlage ein, schreibt `thinktank-<slug>-<JJJJ-MM-TT>.html` und öffnet die Datei im Browser (macOS `open`, Linux `xdg-open`, Windows `startfile`). Es gibt den Pfad aus.
 3. Meldet das Skript `Fehler in den Grillbericht-Daten: …`, korrigiere das JSON und rufe es erneut auf. Lösche danach die temporäre JSON-Datei.
-4. Ohne Python oder Shell: Lies `assets/grillbericht-template.html`, ersetze `__THINKTANK_DATA__` durch das vollständige JSON inklusive der Felder, die sonst das Skript ergänzt (`meta`, Personendaten, `garfortschritt`), und ersetze `__PAGE_TITLE__`, `__GC_SETTINGS__` und `__GC_PATH__` sinngemäß. Porträts dürfen dann fehlen; der Bericht zeigt Initialen. Ohne Dateizugriff gib die fertige HTML-Datei als Artefakt oder Codeblock aus.
+4. **Ohne Shell oder Python (z. B. Cowork, Chat ohne Codeausführung):** Baue **kein eigenes HTML** und gestalte nichts nach. Die Vorlage ist vollständig; sie ergänzt Personen, Porträts, Sitzordnung, Garfortschritt, Titel und Statistik selbst.
+   - Lies `assets/grillbericht-template.html` vollständig.
+   - Übernimm die Datei **Zeichen für Zeichen unverändert** und ersetze nur die eine Zeile `__THINKTANK_DATA__` durch dasselbe JSON wie für das Skript. Das JSON muss gültig sein; schreibe `</` in Texten als `<\/`.
+   - Kürze, formatiere oder verschönere nichts, auch kein CSS und kein Skript. Einzige erlaubte Kürzung: Ist die Ausgabe zu lang, lass den Block `<script type="application/json" id="thinktank-portraits">…</script>` komplett weg. Der Bericht zeigt dann Initialen statt Porträts.
+   - Speichere das Ergebnis als `thinktank-<slug>-<JJJJ-MM-TT>.html`, wenn Dateizugriff besteht, sonst gib es als HTML-Artefakt aus.
 
 ## Der Rat
 
@@ -166,7 +170,7 @@ Jedes Votum besteht aus diesen Teilen. Sie landen 1:1 im Eintrag des Mitglieds u
 
 ## Daten für den Grillbericht
 
-Nur Inhalte, keine Personendaten, kein HTML und kein Markdown (Text wird wörtlich angezeigt). Beispiel: `examples/beispiel-daten.json`, gerendert als `examples/beispiel-votum.html`.
+Nur Inhalte, keine Personendaten, kein HTML und kein Markdown (Text wird wörtlich angezeigt). Namen, Rollen, Porträts, Reihenfolge und Garfortschritt ergänzt die Vorlage anhand der `id`. Beispiel: `examples/beispiel-daten.json`, gerendert als `examples/beispiel-votum.html`.
 
 ```json
 {
