@@ -1,0 +1,180 @@
+{
+  "entwurf": true,
+  "datum": "2026-09-27",
+  "idee": {
+    "titel": "SchärfeTaxi",
+    "untertitel": "Messerschleif-Abo per Post",
+    "pitch": "Hobbyköche schicken ihre Küchenmesser in einer vorfrankierten Schutzbox ein und bekommen sie innerhalb von fünf Tagen professionell geschliffen zurück. Abo ab 12 € pro Quartal.",
+    "vortragende": "Beispiel-Ideengeberin",
+    "kontextdateien": [
+      "pitch-notizen.md",
+      "preisumfrage-freunde.xlsx"
+    ]
+  },
+  "vorsitz": {
+    "urteil": "Der Rat ist sich einig, dass stumpfe Messer ein echtes Alltagsproblem sind. Er ist sich nicht einig, ob jemand dafür regelmäßig zahlt und die Messer aus der Hand gibt. Das klärt kein weiterer Bericht, sondern ein kleiner Test mit zahlenden Kunden."
+  },
+  "rat": [
+    {
+      "id": "franklin",
+      "score": 74,
+      "konfidenz": "mittel",
+      "kernsatz": "Ein scharfes Messer spart jeden Abend Zeit und Ärger. Der Nutzen ist greifbar.",
+      "pruefung": "Das Problem tritt bei fast jedem Hobbykoch auf, der Schmerz ist aber leise: Man gewöhnt sich an stumpfe Messer. Die Lösung ist einfach zu verstehen und braucht keine Erklärung.",
+      "einwand": "Leiser Schmerz führt selten zu Abos. Viele merken den Unterschied erst nach dem ersten Schliff.",
+      "auflagen": [
+        "Einstiegsangebot ohne Abo-Zwang testen"
+      ],
+      "upvotes": [
+        {
+          "plus": 8,
+          "neu": 82,
+          "wenn": "ein Probeschliff zum Einstiegspreis zeigt, dass mindestens 30 % danach ins Abo wechseln"
+        }
+      ]
+    },
+    {
+      "id": "wedgwood",
+      "score": 58,
+      "konfidenz": "niedrig",
+      "kernsatz": "12 € im Quartal klingt fair, aber der Preis ist aus einer Freundesumfrage geraten.",
+      "pruefung": "Die Preisumfrage in der Kontextdatei hat 14 Antworten aus dem Freundeskreis. Das ist ein Anfang, aber kein Marktpreis. Lokale Schleifdienste liegen bei 4–8 € pro Messer.",
+      "einwand": "Porto hin und zurück frisst bei 12 € einen großen Teil der Marge.",
+      "auflagen": [],
+      "upvotes": [
+        {
+          "plus": 12,
+          "neu": 70,
+          "wenn": "eine Landingpage mit drei Preisstufen echte Vorbestellungen sammelt"
+        }
+      ]
+    },
+    {
+      "id": "edison",
+      "score": 66,
+      "konfidenz": "mittel",
+      "kernsatz": "Der MVP passt auf einen Küchentisch: Box, Schleifstein, Versandlabel.",
+      "pruefung": "Ein erster Test braucht keine Software. Eine Box, ein Formular und ein erfahrener Schleifer reichen für die ersten 20 Kunden.",
+      "einwand": "Die Schleifkapazität skaliert nur mit Personal oder teuren Maschinen.",
+      "auflagen": [
+        "Stückkosten vor dem Test kalkulieren",
+        "Kapazitätsgrenze pro Woche festlegen"
+      ],
+      "upvotes": [
+        {
+          "plus": 9,
+          "neu": 75,
+          "wenn": "die Stückkosten pro Messer inklusive Porto unter 5 € liegen"
+        }
+      ]
+    },
+    {
+      "id": "fugger",
+      "score": 33,
+      "konfidenz": "hoch",
+      "kernsatz": "Wer fremde Messer verschickt, haftet für fremde Messer.",
+      "pruefung": "Hochwertige Messer kosten 150 € und mehr. Verlust, Transportschaden und ein misslungener Schliff landen beim Anbieter. Dazu kommt die Abhängigkeit von einem einzigen Paketdienst.",
+      "einwand": "Ein einziger beschädigter Premiumkunde kann den Ruf eines kleinen Dienstes ruinieren.",
+      "auflagen": [],
+      "upvotes": [
+        {
+          "plus": 25,
+          "neu": 58,
+          "wenn": "Versicherung, Haftungsgrenze und Schadensprozess vor dem ersten Kunden geklärt sind"
+        }
+      ]
+    },
+    {
+      "id": "drucker",
+      "score": 49,
+      "konfidenz": "mittel",
+      "kernsatz": "Wer genau ist der Kunde: der Messerliebhaber oder der, dem es egal ist?",
+      "pruefung": "Messerliebhaber schleifen oft selbst oder vertrauen niemandem. Gleichgültige Nutzer spüren das Problem kaum. Die Zielgruppe dazwischen ist noch nicht beschrieben.",
+      "einwand": "Ohne klares Kundenbild wird das Marketing teuer und unscharf.",
+      "auflagen": [],
+      "upvotes": [
+        {
+          "plus": 16,
+          "neu": 65,
+          "wenn": "fünf Gespräche eine konkrete Zielgruppe mit Zahlungsbereitschaft zeigen"
+        }
+      ]
+    },
+    {
+      "id": "lauder",
+      "score": 71,
+      "konfidenz": "mittel",
+      "kernsatz": "Das verkauft sich nicht über Anzeigen, sondern über Kochkurse und Messerläden.",
+      "pruefung": "Kochschulen, Kochkurse und Fachhändler sehen täglich stumpfe Messer. Eine Kooperation mit Provision bringt Vertrauen und Kunden gleichzeitig.",
+      "einwand": "Partner wollen Marge. Das verschärft das Preisproblem.",
+      "auflagen": [
+        "Einen Partnerkanal vor bezahlter Werbung testen"
+      ],
+      "upvotes": [
+        {
+          "plus": 10,
+          "neu": 81,
+          "wenn": "zwei Kochschulen einem Pilot mit Provision zustimmen"
+        }
+      ]
+    }
+  ],
+  "entscheidung": {
+    "empfehlung": "überarbeiten",
+    "garstufe": "Medium rare",
+    "kurzurteil": "Gute Glut, aber innen noch roh.",
+    "konsens": [
+      "Das Problem ist real und leicht zu erklären.",
+      "Ein erster Test braucht keine Software."
+    ],
+    "dissens": [
+      "Franklin und Lauder sehen tragfähige Nachfrage, Fugger sieht vor allem Haftungsrisiko.",
+      "Wedgwood und Edison bezweifeln, dass 12 € pro Quartal inklusive Porto aufgehen."
+    ],
+    "staerksterEinwand": {
+      "von": "Jakob Fugger",
+      "text": "Wer fremde Messer verschickt, haftet für fremde Messer. Ohne Versicherung und Schadensprozess ist jeder Kunde ein Risiko."
+    },
+    "annahmen": [
+      {
+        "text": "Hobbyköche zahlen regelmäßig für geschliffene Messer.",
+        "status": "Annahme"
+      },
+      {
+        "text": "12 € pro Quartal decken Porto, Schliff und Marge.",
+        "status": "Offen"
+      },
+      {
+        "text": "Kunden geben hochwertige Messer für fünf Tage aus der Hand.",
+        "status": "Annahme"
+      }
+    ],
+    "gespraech": {
+      "mitWem": "Eine Kochschule mit eigenen Kursen und fünf ihrer Teilnehmenden",
+      "fragen": [
+        "Wie oft lassen Sie Ihre Messer heute schleifen, und wo?",
+        "Was hat Sie davon abgehalten, es öfter zu tun?",
+        "Würden Sie Ihr bestes Messer per Post verschicken? Was müsste dafür gegeben sein?",
+        "Was haben Sie zuletzt für einen Schliff bezahlt?",
+        "Wann haben Sie zuletzt gemerkt, dass ein Messer stumpf ist?",
+        "Wem würden Sie einen solchen Dienst empfehlen?"
+      ]
+    },
+    "test": {
+      "ziel": "Zahlen echte Kunden für einen Probeschliff per Post?",
+      "schritte": [
+        "Tag 1–2: Stückkosten mit Porto kalkulieren, Versicherung anfragen",
+        "Tag 2–3: Landingpage mit Probeschliff für 9 € und Abo-Option",
+        "Tag 3–6: Zwei Kochschulen und eine Messerhändler-Community ansprechen",
+        "Tag 7: Bestellungen, Abo-Klicks und Einwände auswerten"
+      ],
+      "erfolg": "Mindestens 15 bezahlte Probeschliffe und 5 Abo-Interessierte",
+      "abbruch": "Weniger als 5 Bestellungen oder Stückkosten über 7 €"
+    },
+    "offen": [
+      "Welche Versicherung deckt Messer im Versand ab und was kostet sie?",
+      "Wer schleift, und wie viele Messer schafft diese Person pro Woche?",
+      "Gibt es bereits Anbieter mit Postversand im Zielmarkt?"
+    ]
+  }
+}
